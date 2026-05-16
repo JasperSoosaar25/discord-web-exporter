@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebChatExporter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#313338] text-white font-sans min-h-screen flex flex-col items-center p-8">
+
+    <div class="max-w-2xl w-full bg-[#2b2d31] rounded-lg p-6 shadow-xl">
+        <h1 class="text-2xl font-bold mb-4 border-b border-[#3f4147] pb-2">Discord Chat Exporter <span class="text-xs bg-blue-600 px-2 py-1 rounded ml-2">WEB</span></h1>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">User Token</label>
+                <input type="password" id="token" placeholder="Paste your token here..." 
+                    class="w-full bg-[#1e1f22] border-none rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">Channel ID</label>
+                <input type="text" id="channelId" placeholder="e.g. 123456789012345678" 
+                    class="w-full bg-[#1e1f22] border-none rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+
+            <button onclick="startExport()" id="exportBtn" 
+                class="w-full bg-[#5865f2] hover:bg-[#4752c4] transition font-bold py-2 rounded">
+                Export to JSON
+            </button>
+        </div>
+
+        <div id="log" class="mt-6 p-4 bg-[#1e1f22] rounded h-48 overflow-y-auto text-xs font-mono text-green-400">
+            > System ready. Enter details and click export...
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
