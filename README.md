@@ -1,21 +1,27 @@
 # Discord Web Exporter 🌐
 
-A lightweight, client-side web application to export Discord chat history to JSON. Inspired by [DiscordChatExporter](https://github.com/tyrrrz/discordchatexporter).
+![License](https://img.shields.io/github/license/JasperSoosaar25/discord-web-exporter?color=5865f2)
+![Issues](https://img.shields.io/github/issues/JasperSoosaar25/discord-web-exporter)
+![Stars](https://img.shields.io/github/stars/JasperSoosaar25/discord-web-exporter?style=social)
 
-## 🚀 Features
-* **Privacy First:** Your token never leaves your browser. Requests are made directly to Discord.
-* **No Install:** No .NET runtime or installation required.
-* **Tailwind CSS:** Clean, Discord-inspired dark mode UI.
+A lightweight, client-side web application to export Discord chat history to JSON. Inspired by the original [DiscordChatExporter](https://github.com/tyrrrz/discordchatexporter).
 
-## 🛠️ Setup & Usage
-1. Clone this repository or download the ZIP.
-2. Open `index.html` in any modern web browser.
-3. **Important:** Due to Discord's [CORS policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), this will not work out-of-the-box on a standard web server. 
-    * **Option A:** Use a browser extension like "CORS Unblock".
-    * **Option B:** Run a local proxy.
+[**🚀 Open Web App**](https://JasperSoosaar25.github.io/discord-web-exporter/)
 
-## ⚠️ Security Warning
-**Self-botting (using a user token) is technically against Discord's Terms of Service.** While exporting your own chats is usually overlooked, use this tool at your own risk. **Never** share your user token with anyone.
+---
 
-## 📜 License
-MIT
+## ✨ Features
+* **🔒 Privacy First:** Your token never leaves your browser. Requests are made directly to Discord's API.
+* **⚡ No Installation:** Run it directly in your browser without .NET runtimes.
+* **🎨 Discord UI:** A clean, familiar dark-mode interface built with Tailwind CSS.
+
+## 🛠️ How to Use
+1.  **Get your Token:** Open Discord in your browser, press `F12`, go to the **Network** tab, and find your `authorization` header.
+2.  **Bypass CORS:** Because this is a web app, you must use a browser extension like **[CORS Unblock](https://chrome.google.com/webstore/detail/cors-unblock/jiofmdmaphpmocmjjjbgjocafpbejnid)** to allow the app to talk to Discord.
+3.  **Export:** Enter your token and Channel ID, then hit Export!
+
+## ⚠️ Disclaimer
+**Self-botting (using a user token) is technically against Discord's Terms of Service.** This tool is for educational purposes and personal backups. Use it responsibly.
+
+---
+*Created with ❤️ by Jasper Soosaar*
