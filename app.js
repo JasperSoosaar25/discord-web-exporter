@@ -1,17 +1,14 @@
-async function startExport() {
+async function startExport(format) {
     const token = document.getElementById('token').value;
     const channelId = document.getElementById('channelId').value;
     const logElement = document.getElementById('log');
-    const btn = document.getElementById('exportBtn');
-
+    
     if (!token || !channelId) {
-        alert("Please provide both a token and channel ID.");
+        alert("Enter your token and a channel ID first!");
         return;
     }
 
-    btn.disabled = true;
-    btn.innerText = "Exporting...";
-    logElement.innerHTML += `<br>> Starting export for: ${channelId}`;
+    logElement.innerHTML += `<br>> Initializing ${format.toUpperCase()} export...`;
 
     let allMessages = [];
     let lastId = null;
@@ -22,50 +19,60 @@ async function startExport() {
             let url = `https://discord.com/api/v9/channels/${channelId}/messages?limit=100`;
             if (lastId) url += `&before=${lastId}`;
 
-            const response = await fetch(url, { headers: { "Authorization": token } });
-            if (!response.ok) throw new Error(`Status: ${response.status}`);
+            const response = await fetch(url, {
+                headers: { "Authorization": token }
+            });
+
+            if (!response.ok) throw new Error(`API Error: ${response.status}`);
 
             const messages = await response.json();
-            if (messages.length === 0) { fetching = false; } 
-            else {
+            
+            if (messages.length === 0) {
+                fetching = false;
+            } else {
                 allMessages.push(...messages);
                 lastId = messages[messages.length - 1].id;
                 logElement.innerHTML += `<br>> Fetched ${allMessages.length} messages...`;
                 logElement.scrollTop = logElement.scrollHeight;
             }
-            await new Promise(r => setTimeout(r, 200));
+
+            // Rate limit protection
+            await new Promise(r => setTimeout(r, 250));
         }
 
-        // Generate the HTML view
-        const htmlContent = generateHTML(allMessages, channelId);
-        downloadFile(htmlContent, `chat-${channelId}.html`, 'text/html');
-        
-        logElement.innerHTML += `<br>> Success! HTML file downloaded.`;
+        if (format === 'json') {
+            const data = JSON.stringify(allMessages, null, 2);
+            downloadFile(data, `discord-cache-${channelId}.json`, 'application/json');
+        } else {
+            const html = generateHTML(allMessages, channelId);
+            // Update the hidden print area so user can Print to PDF immediately
+            document.getElementById('print-area').innerHTML = html;
+            downloadFile(html, `discord-chat-${channelId}.html`, 'text/html');
+        }
+
+        logElement.innerHTML += `<br>> SUCCESS: Export complete.`;
     } catch (err) {
         logElement.innerHTML += `<br>> ERROR: ${err.message}`;
-    } finally {
-        btn.disabled = false;
-        btn.innerText = "Export to HTML";
+        console.error(err);
     }
 }
 
 function generateHTML(messages, id) {
-    const rows = messages.reverse().map(m => `
-        <div style="margin-bottom: 15px; font-family: sans-serif;">
-            <strong style="color: #5865f2;">${m.author.username}</strong> 
-            <small style="color: #888;">${new Date(m.timestamp).toLocaleString()}</small>
-            <div style="margin-top: 5px; color: #dcddde;">${m.content}</div>
+    const content = messages.reverse().map(m => `
+        <div style="margin-bottom: 16px; border-left: 2px solid #5865f2; padding-left: 10px;">
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+                <b style="color: #5865f2; font-size: 1.1em;">${m.author.username}</b>
+                <span style="color: #888; font-size: 0.8em;">${new Date(m.timestamp).toLocaleString()}</span>
+            </div>
+            <div style="margin-top: 4px; line-height: 1.5; white-space: pre-wrap;">${m.content}</div>
         </div>
     `).join('');
 
     return `
-        <html>
-        <body style="background-color: #313338; color: white; padding: 20px;">
-            <h2>Exported Chat: ${id}</h2>
-            <hr style="border: 1px solid #444; margin-bottom: 20px;">
-            ${rows}
-        </body>
-        </html>`;
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: auto;">
+            <h1 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">Exported Channel: ${id}</h1>
+            <div style="margin-top: 20px;">${content}</div>
+        </div>`;
 }
 
 function downloadFile(data, filename, type) {
@@ -75,4 +82,5 @@ function downloadFile(data, filename, type) {
     a.href = url;
     a.download = filename;
     a.click();
+    window.URL.revokeObjectURL(url);
 }

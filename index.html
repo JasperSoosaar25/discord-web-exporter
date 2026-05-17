@@ -3,37 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebChatExporter</title>
+    <title>Discord Web Exporter</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
 </head>
 <body class="bg-[#313338] text-white font-sans min-h-screen flex flex-col items-center p-8">
 
-    <div class="max-w-2xl w-full bg-[#2b2d31] rounded-lg p-6 shadow-xl">
-        <h1 class="text-2xl font-bold mb-4 border-b border-[#3f4147] pb-2">Discord Chat Exporter <span class="text-xs bg-blue-600 px-2 py-1 rounded ml-2">WEB</span></h1>
+    <div class="max-w-2xl w-full bg-[#2b2d31] rounded-lg p-6 shadow-2xl no-print">
+        <h1 class="text-2xl font-bold mb-4 border-b border-[#3f4147] pb-2 flex items-center">
+            Discord Web Exporter <span class="text-[10px] bg-[#5865f2] px-2 py-1 rounded ml-3 tracking-widest">v1.0</span>
+        </h1>
         
         <div class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-400 mb-1">User Token</label>
-                <input type="password" id="token" placeholder="Paste your token here..." 
-                    class="w-full bg-[#1e1f22] border-none rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">User Token</label>
+                <input type="password" id="token" placeholder="Paste token here..." 
+                    class="w-full bg-[#1e1f22] border-none rounded p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-400 mb-1">Channel ID</label>
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Channel ID</label>
                 <input type="text" id="channelId" placeholder="e.g. 123456789012345678" 
-                    class="w-full bg-[#1e1f22] border-none rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
+                    class="w-full bg-[#1e1f22] border-none rounded p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
             </div>
 
-            <button onclick="startExport()" id="exportBtn" 
-                class="w-full bg-[#5865f2] hover:bg-[#4752c4] transition font-bold py-2 rounded">
-                Export to JSON
+            <button onclick="startExport('html')" id="exportBtn" 
+                class="w-full bg-[#5865f2] hover:bg-[#4752c4] active:scale-[0.98] transition-all font-bold py-3 rounded shadow-lg">
+                Export to HTML
             </button>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="startExport('json')" 
+                    class="bg-[#4e5058] hover:bg-[#6d6f78] transition font-bold py-2 rounded text-sm uppercase tracking-tight">
+                    Download JSON
+                </button>
+                <button onclick="window.print()" 
+                    class="bg-[#4e5058] hover:bg-[#6d6f78] transition font-bold py-2 rounded text-sm uppercase tracking-tight">
+                    Save as PDF
+                </button>
+            </div>
         </div>
 
-        <div id="log" class="mt-6 p-4 bg-[#1e1f22] rounded h-48 overflow-y-auto text-xs font-mono text-green-400">
-            > System ready. Enter details and click export...
+        <div id="log" class="mt-6 p-4 bg-[#1e1f22] rounded h-40 overflow-y-auto text-xs font-mono text-green-400 border border-[#3f4147]">
+            > System ready...
         </div>
     </div>
+
+    <div id="print-area" class="hidden print:block w-full"></div>
 
     <script src="app.js"></script>
 </body>
