@@ -1,0 +1,26 @@
+name: Update Star Count
+on:
+  watch:
+    types: [started]
+  workflow_dispatch: # Allows you to run it manually
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Update README
+        run: |
+          # This command fetches the star count and replaces the old number in the README
+          STARS=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq '.stargazers_count')
+          sed -i "s/stars-[0-9]*/stars-$STARS/" README.md
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "chore: update star count to $STARS"
+          git push
