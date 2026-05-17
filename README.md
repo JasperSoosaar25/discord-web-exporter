@@ -1,6 +1,6 @@
 # Discord Web Exporter 🌐
 
-![License](![License](https://img.shields.io/github/license/JasperSoosaar25/discord-web-exporter?color=5865f2&cacheSeconds=3600))
+![License](https://img.shields.io/github/license/JasperSoosaar25/discord-web-exporter?color=5865f2&cacheSeconds=3600)
 ![Issues](https://img.shields.io/github/issues/JasperSoosaar25/discord-web-exporter)
 ![Stars](https://img.shields.io/github/stars/JasperSoosaar25/discord-web-exporter?style=social)
 
