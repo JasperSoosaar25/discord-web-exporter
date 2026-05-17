@@ -1,10 +1,10 @@
 # Discord Web Exporter 🌐
 
-![License](https://img.shields.io/github/license/JasperSoosaar25/discord-web-exporter?color=5865f2&cacheSeconds=3600)
-![Issues](https://img.shields.io/github/issues/JasperSoosaar25/discord-web-exporter)
-![Stars](https://img.shields.io/github/stars/JasperSoosaar25/discord-web-exporter?style=social)
+![License](https://img.shields.io/badge/license-MIT-5865f2)
+![Stars](https://img.shields.io/github/stars/JasperSoosaar25/discord-web-exporter?style=flat&color=ffd700)
+![Issues](https://img.shields.io/github/issues/JasperSoosaar25/discord-web-exporter?color=red)
 
-A lightweight, client-side web application to export Discord chat history to JSON. Inspired by the original [DiscordChatExporter](https://github.com/tyrrrz/discordchatexporter).
+A lightweight, client-side web application to export Discord chat history to HTML, JSON, and PDF. Inspired by the original [DiscordChatExporter](https://github.com/tyrrrz/discordchatexporter).
 
 [**🚀 Open Web App**](https://JasperSoosaar25.github.io/discord-web-exporter/)
 
