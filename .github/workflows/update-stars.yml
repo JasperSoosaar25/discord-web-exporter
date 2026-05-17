@@ -2,7 +2,7 @@ name: Update Star Count
 on:
   watch:
     types: [started]
-  workflow_dispatch: # Allows you to run it manually
+  workflow_dispatch: 
 
 jobs:
   update-readme:
@@ -11,16 +11,24 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Update README
+      - name: Fetch and Update
         run: |
-          # This command fetches the star count and replaces the old number in the README
+          # Get current stars from API
           STARS=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq '.stargazers_count')
-          sed -i "s/stars-[0-9]*/stars-$STARS/" README.md
+          
+          # Replace the number between the comments
+          sed -i "s/.*/$STARS/" README.md
 
       - name: Commit and Push
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Only commit if the file actually changed
           git add README.md
-          git commit -m "chore: update star count to $STARS"
-          git push
+          if git diff --staged --quiet; then
+            echo "No changes in star count. Skipping commit."
+          else
+            git commit -m "chore: auto-update star count to $STARS"
+            git push
+          fi
