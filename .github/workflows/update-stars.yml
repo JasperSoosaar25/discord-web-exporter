@@ -7,27 +7,31 @@ on:
 jobs:
   update-readme:
     runs-on: ubuntu-latest
+    # THIS IS THE KEY: Give the bot permission to write to the repo
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Fetch and Update
+      - name: Fetch, Update, and Push
         run: |
-          # Get current stars from API
+          # 1. Get current stars
           STARS=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq '.stargazers_count')
+          echo "Current stars: $STARS"
           
-          # Replace the number between the comments
+          # 2. Update the README
           sed -i "s/.*/$STARS/" README.md
-
-      - name: Commit and Push
-        run: |
+          
+          # 3. Setup git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Only commit if the file actually changed
+          # 4. Commit and Push only if changed
           git add README.md
           if git diff --staged --quiet; then
-            echo "No changes in star count. Skipping commit."
+            echo "No changes detected."
           else
             git commit -m "chore: auto-update star count to $STARS"
             git push
