@@ -17,7 +17,7 @@ A lightweight, client-side web application to export Discord chat history to JSO
 
 ## 🛠️ How to Use
 1.  **Get your Token:** Open Discord in your browser, press `F12`, go to the **Network** tab, and find your `authorization` header.
-2.  **Bypass CORS:** Because this is a web app, you must use a browser extension like **[CORS Unblock](https://chrome.google.com/webstore/detail/cors-unblock/jiofmdmaphpmocmjjjbgjocafpbejnid)** to allow the app to talk to Discord.
+2.  **Bypass CORS:** Because this is a web app, you must use a browser extension like **[CORS Unblock](https://chromewebstore.google.com/detail/cors-unblock/hadoojkfknbjgoppkecpgamiajljiief)** to allow the app to talk to Discord.
 3.  **Export:** Enter your token and Channel ID, then hit Export!
 
 ## ⚠️ Disclaimer
